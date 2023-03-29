@@ -5,9 +5,6 @@ import requests
 import os, sys, json
 import logging
 
-# GOOGLE_API_KEY = "AIzaSyBExuI7zUoagb7chaORZu0tzSFrkyivPJU"
-# SEARCH_ENGINE_ID = "457e9210f27b24990"
-
 # if we are running in Docker
 if os.environ.get("dockerrun") == "yes":
     dockerflag = True
