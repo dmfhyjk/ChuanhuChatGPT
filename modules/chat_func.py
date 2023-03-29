@@ -10,7 +10,7 @@ import urllib3
 
 from tqdm import tqdm
 import colorama
-from duckduckgo_search import ddg
+# from duckduckgo_search import ddg
 import asyncio
 import aiohttp
 
@@ -18,6 +18,7 @@ from modules.presets import *
 from modules.llama_func import *
 from modules.utils import *
 import modules.shared as shared
+from modules.google import GoogleSearch
 
 # logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d] %(message)s")
 
@@ -268,7 +269,9 @@ def predict(
     old_inputs = ""
     link_references = []
     if use_websearch:
-        search_results = ddg(inputs, max_results=5)
+        # search_results = ddg(inputs, max_results=5)
+        logging.info(f"使用Google搜索: {inputs}")
+        search_results = GoogleSearch(inputs, 5)
         old_inputs = inputs
         web_results = []
         for idx, result in enumerate(search_results):

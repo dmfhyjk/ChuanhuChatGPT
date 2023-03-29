@@ -17,6 +17,7 @@ logging.basicConfig(
 )
 
 my_api_key = ""  # 在这里输入你的 API 密钥
+HIDE_MY_KEY = True
 
 # if we are running in Docker
 if os.environ.get("dockerrun") == "yes":
@@ -39,13 +40,15 @@ if dockerflag:
         auth_list.append((os.environ.get("USERNAME"), os.environ.get("PASSWORD")))
         authflag = True
 else:
-    if (
-        not my_api_key
-        and os.path.exists("api_key.txt")
-        and os.path.getsize("api_key.txt")
-    ):
-        with open("api_key.txt", "r") as f:
-            my_api_key = f.read().strip()
+    # if (
+    #     not my_api_key
+    #     and os.path.exists("api_key.txt")
+    #     and os.path.getsize("api_key.txt")
+    # ):
+    #     with open("api_key.txt", "r") as f:
+    #         my_api_key = f.read().strip()
+    if not my_api_key:
+        my_api_key = os.environ.get("my_api_key")
     if os.path.exists("auth.json"):
         authflag = True
         with open("auth.json", "r", encoding='utf-8') as f:
@@ -202,7 +205,7 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
                         temperature = gr.Slider(
                             minimum=-0,
                             maximum=2.0,
-                            value=1.0,
+                            value=0.8,
                             step=0.1,
                             interactive=True,
                             label="Temperature",
@@ -454,3 +457,6 @@ if __name__ == "__main__":
         # demo.queue(concurrency_count=CONCURRENT_COUNT).launch(server_name="0.0.0.0", server_port=7860, share=False) # 可自定义端口
         # demo.queue(concurrency_count=CONCURRENT_COUNT).launch(server_name="0.0.0.0", server_port=7860,auth=("在这里填写用户名", "在这里填写密码")) # 可设置用户名与密码
         # demo.queue(concurrency_count=CONCURRENT_COUNT).launch(auth=("在这里填写用户名", "在这里填写密码")) # 适合Nginx反向代理
+
+if __name__ == '__main__':
+    pass
